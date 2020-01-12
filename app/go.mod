@@ -20,4 +20,5 @@ require (
 	go.uber.org/zap v1.13.0
 	golang.org/x/tools v0.0.0-20191209225234-22774f7dae43 // indirect
 	gopkg.in/yaml.v2 v2.2.2
+
 )
