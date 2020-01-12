@@ -1,0 +1,30 @@
+version: '2.1'
+services:
+  go-test:
+    container_name: go-test
+    build: ./
+    environment:
+      - VIRTUAL_HOST=gotest.pv
+      - APP_ENV=dev
+      - GIN_MODE=release
+    volumes:
+      - ./app:/go/src/github.com/user/sites/app
+    ports:
+      - "5000:8080"
+    depends_on:
+      db :
+        condition: service_healthy
+    links:
+      - db
+  db:
+    image: "postgres:alpine"
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "go_restful"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
